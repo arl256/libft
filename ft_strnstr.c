@@ -12,30 +12,29 @@
 
 #include <stdio.h>
 #include <stddef.h>
+#include <stdio.h>
 
-char	*ft_strnstr(const char	*larga, const char *corta, size_t len)
+int		ft_strncmp(const char *s1, const char *s2, size_t size);
+size_t	ft_strlen(const char *s);
+
+char	*ft_strnstr(const char *larga, const char *corta, size_t len)
 {
-	int	cont_l;
-	int	cont_c;
+	size_t	cont;
 
-	cont_l = 0;
-	cont_c = 0;
-	while (larga[cont_l] != '\0')
+	cont = 0;
+	if (ft_strlen(corta) == 0)
+		return ((char *)larga);
+	while ((char)larga[cont] >= '\0' && cont < len)
 	{
-		if (corta[cont_c] == larga[cont_l])
+		if (ft_strncmp((char *)&larga[cont], corta, ft_strlen(corta)) == 0)
 		{
-			while (corta[cont_c] != '\0' && corta[cont_c] == larga[cont_l])
+			if (ft_strlen(corta) + cont > len)
 			{
-				cont_c++;
-				cont_l++;
+				return (0);
 			}
-			if (corta[cont_c] == '\0' || (size_t) cont_c >= len)
-			{
-				return ((char *)&larga[(cont_l - cont_c)]);
-			}
+			return ((char *) &larga[(cont)]);
 		}
-		cont_c = 0;
-		cont_l++;
+		cont++;
 	}
 	return (0);
 }
