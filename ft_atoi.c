@@ -10,30 +10,60 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isdigit(char c);
+int ft_isdigit(char c);
+int ft_isprint(char c);
 
-int	ft_atoi(const char *strnum)
+int	excepto(char c)
 {
-	int	cont;
-	int	num;
-	int	signo;
+	if (c == '\t' || c == '\n' || c == '\v' || c =='\f' || c == '\r')
+	{
+		return (1);
+	}
+	return (0);
+}
+
+int	signo(char c)
+{
+	if (c == '-')
+		return (2);
+	else if (c == '+')
+		return (1);
+	return (0);
+}
+
+int ft_atoi(const char *strnum)
+{
+	int cont;
+	int num;
+	int neg;
 
 	cont = 0;
 	num = 0;
-	signo = 0;
-	if (strnum[cont] == 45)
+	neg = 0;
+	if ( strnum[cont] < 32 && !excepto( strnum[cont]))
+		return(0);
+	while ( strnum[cont] == 32 || excepto( strnum[cont]))
+		cont++;
+	if (signo(strnum[cont]) > 0)
 	{
-		signo = 1;
+		neg = signo(strnum[cont]) - 1;
 		cont++;
 	}
-	while (ft_isdigit(strnum[cont]))
+	if (ft_isdigit( strnum[cont]))
 	{
-		num = 10 * num + (strnum[cont] - 48);
-		cont++;
+		while (ft_isdigit( strnum[cont]))
+		{
+			num = (10 * num) + ( strnum[cont]+ 0 - 48);
+			cont++;
+		}
 	}
-	if (signo == 1)
+	else return (0);
+
+	if (neg == 1)
 	{
 		num = -num;
 	}
 	return (num);
+
+
 }
