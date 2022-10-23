@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_isdigit(char c);
-int ft_isprint(char c);
+int	ft_isdigit(char c);
+int	ft_isprint(char c);
 
 int	excepto(char c)
 {
-	if (c == '\t' || c == '\n' || c == '\v' || c =='\f' || c == '\r')
+	if (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r')
 	{
 		return (1);
 	}
@@ -31,39 +31,42 @@ int	signo(char c)
 	return (0);
 }
 
-int ft_atoi(const char *strnum)
+int	montanum(char *este)
 {
-	int cont;
-	int num;
-	int neg;
+	int	c;
+	int	numero;
+
+	c = 0;
+	numero = 0;
+	while (ft_isdigit(este[c]))
+	{
+		numero = (10 * numero) + (este[c] + 0 - 48);
+		c++;
+	}
+	return (numero);
+}
+
+int	ft_atoi(const char *strnum)
+{
+	int	cont;
+	int	num;
+	int	neg;
 
 	cont = 0;
 	num = 0;
 	neg = 0;
-	if ( strnum[cont] < 32 && !excepto( strnum[cont]))
-		return(0);
-	while ( strnum[cont] == 32 || excepto( strnum[cont]))
+	if (strnum[cont] < 32 && !excepto(strnum[cont]))
+		return (0);
+	while (strnum[cont] == 32 || excepto(strnum[cont]))
 		cont++;
 	if (signo(strnum[cont]) > 0)
 	{
 		neg = signo(strnum[cont]) - 1;
 		cont++;
 	}
-	if (ft_isdigit( strnum[cont]))
-	{
-		while (ft_isdigit( strnum[cont]))
-		{
-			num = (10 * num) + ( strnum[cont]+ 0 - 48);
-			cont++;
-		}
-	}
-	else return (0);
-
+	if (ft_isdigit(strnum[cont]))
+		num = montanum((char *) &strnum[cont]);
 	if (neg == 1)
-	{
 		num = -num;
-	}
 	return (num);
-
-
 }
